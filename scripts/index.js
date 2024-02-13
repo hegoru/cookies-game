@@ -168,10 +168,7 @@ async function makeGameScreen() {
       updateStageOptions({ scale: 1.0 });
     }
 
-    updateGameObjectsScale(
-      [gameOverLayout, scoreText],
-      stageOptions.scale
-    );
+    updateGameObjectsScale([gameOverLayout, scoreText], stageOptions.scale);
   };
 
   const updateGameObjectPosition = (obj, pos) => {
@@ -222,6 +219,16 @@ async function makeGameScreen() {
     });
 
     gameOverLayout.addChild(tableReplayButton);
+  };
+
+  const removeTempTexts = () => {
+    if (tempTexts.isEmpty()) {
+      return;
+    }
+
+    for (const tempText of tempTexts.elems) {
+      removeTempText(tempText);
+    }
   };
 
   const removeTempText = (tempText) => {
@@ -362,12 +369,15 @@ async function makeGameScreen() {
   };
 
   const removeAllCookies = () => {
+    if (cookies.isEmpty()) {
+      return;
+    }
+
     cookies.removeAll();
     cookiesLayout.removeChildren();
   };
 
   const removeCookie = (cookie) => {
-    console.log("removed");
     cookies.remove(cookie);
     cookiesLayout.removeChild(cookie);
   };
@@ -386,7 +396,6 @@ async function makeGameScreen() {
     if (cookie.y > app.screen.height + cookie.size) {
       removeCookie(cookie);
     }
-    console.log(cookie.y);
 
     cookie.fallDown();
   };
@@ -432,7 +441,6 @@ async function makeGameScreen() {
       app.screen.width - cookie.width
     );
     cookie.scale.set(cookieOpts.scale);
-    console.log(cookie.height * cookie.scale.y);
     cookie.fallSpeed = Randomizer.floatBetween(
       app.screen.height * 0.00875,
       app.screen.height * 0.01
@@ -475,6 +483,7 @@ async function makeGameScreen() {
 
   const gameOver = () => {
     removeAllCookies();
+    removeTempTexts();
     explodeAllBombs();
 
     if (scoreManager.score > scoreManager.bestScore) {
