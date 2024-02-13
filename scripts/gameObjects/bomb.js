@@ -4,7 +4,6 @@ export class Bomb extends GameObject {
   constructor(src, opts = {}) {
     super(src);
     this.anchor.set(0.5);
-    this.scale.set(0.5);
 
     this.y = -this.height;
 

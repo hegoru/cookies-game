@@ -1,4 +1,4 @@
-import { GameObject } from './gameObject.js';
+import { GameObject } from "./gameObject.js";
 
 export class Cookie extends GameObject {
   constructor(textures, hp, opts = {}) {
@@ -33,6 +33,10 @@ export class Cookie extends GameObject {
   fallDown() {
     this.y += this.fallSpeed;
     this.rotation += this.rotationSpeed;
+  }
+
+  get size() {
+    return this.height * this.scale.y;
   }
 
   scoreValue() {
